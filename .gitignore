@@ -1,0 +1,5 @@
+bin/
+obj/
+.vs/
+apicsharp.sln
+apicsharp.csproj.user
