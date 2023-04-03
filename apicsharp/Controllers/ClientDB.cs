@@ -53,6 +53,8 @@ namespace apicsharp.Controllers
                 NpgsqlCommand cmd = new NpgsqlCommand(SqlDelete.Replace(string.Format(":p_{0}", nameof(id)), id), Connection.GetConnection());
                 var dr = cmd.ExecuteNonQuery();
 
+
+                Connection.ExitConnection(Connection.GetConnection());
             }
             catch (Exception ex)
             {
@@ -69,10 +71,53 @@ namespace apicsharp.Controllers
             sql = SqlUpdate.Replace(string.Format(":p_{0}", nameof(obj.Id).ToLower()), obj.Id.ToString());
             sql = SqlUpdate.Replace(string.Format(":p_{0}", nameof(obj.Nome).ToLower()), obj.Nome);
             NpgsqlCommand cmd = new NpgsqlCommand(sql, Connection.GetConnection());
-            var dr = cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
+
+
+
+            Connection.ExitConnection(Connection.GetConnection());
 
         }
 
+
+        public static void ExecuteScriptSQl(string sql)
+        {
+            try
+            {
+
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, Connection.GetConnection());
+                var dr = cmd.ExecuteNonQuery();
+                Connection.ExitConnection(Connection.GetConnection());
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Erro ScriptSql >> " + ex.Message);
+            }
+
+
+
+        }
+
+
+
+        public static void SqlPrepareExecute(string[] param, string[] NValues, string sql)
+        {
+            foreach (var str in param)
+            {
+                foreach (var newvalue in NValues)
+                {
+                    sql.Replace(string.Format(":p_{0}", param), newvalue);
+                }
+            }
+
+
+            ExecuteScriptSQl(sql);
+
+        }
+
+
+     
 
     }
 }

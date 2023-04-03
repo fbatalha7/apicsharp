@@ -1,6 +1,5 @@
 ﻿using apicsharp.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,7 +10,7 @@ namespace apicsharp.Controllers
     public class ClientsController : ControllerBase
     {
 
-        // GET: api/<ClientsController>
+     
         [HttpGet]
         public List<Clients> Get()
         {
@@ -24,7 +23,7 @@ namespace apicsharp.Controllers
         [HttpGet("{id}")]
         public List<Clients> Get(int id)
         {
-            List<Clients> clients = ClientDB.GetClients().Where(c => c.Id == id).ToList() ;
+            List<Clients> clients = ClientDB.GetClients().Where(c => c.Id == id).ToList();
             return clients;
 
         }
@@ -37,11 +36,17 @@ namespace apicsharp.Controllers
         }
 
         [HttpPut]
-        public void Put(Clients obj) 
+        public void Put(Clients obj)
         {
-
             ClientDB.UpdateClient(obj);
         }
+
+        //[HttpGet("{sql}")]
+        //public void GetScriptSql(string sql)
+        //{
+
+        //    ClientDB.ExecuteScriptSQl(sql);
+        //}
 
 
 

@@ -5,6 +5,13 @@ namespace apicsharp.Controllers
 {
     public class Connection
     {
+        private static IConfiguration _config;
+
+    
+        public static void con(IConfiguration configuration)
+        {
+            _config = configuration;
+        }
 
         public static NpgsqlConnection GetConnection()
         {
@@ -12,7 +19,7 @@ namespace apicsharp.Controllers
             NpgsqlConnection conexao = null;
             try
             {
-                conexao = new NpgsqlConnection("Server=localhost;Port=5432;User Id=postgres;Password=123;Database=empresax;Pooling=true;");
+                conexao = new NpgsqlConnection(_config.GetConnectionString("Teste"));
                 conexao.Open();
             }
             catch (Exception e)
